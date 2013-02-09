@@ -316,7 +316,7 @@ org_heading_set_entire_text (org_heading *heading, char *string, int length,
    * This is the whitespace between the stars and heading.
    * Store it as a substring.
    */
-  for (count = 0; count < ubound - lbound; count++)
+  for (count = 0; (lbound + count) < ubound; count++)
     {
       if (!iswhitespace (string[lbound + count]))
 	{
@@ -357,7 +357,7 @@ org_heading_set_entire_text (org_heading *heading, char *string, int length,
   /* Scan trailing linebreaks
    * Scan right to left.
    */
-  for (count = 0; count < (ubound - lbound); count++)
+  for (count = 0; (lbound + count) < ubound; count++)
     {
       if (!islinebreak (string[ubound - count - 1]))
 	{
@@ -385,7 +385,7 @@ org_heading_set_entire_text (org_heading *heading, char *string, int length,
   bool foundtags = false;
   bool done = false;
 
-  for (i = 0; i < (ubound - lbound); i++)
+  for (i = 0; (lbound + i) < ubound; i++)
     {
       if (string [ubound - i - 1] == ':')
 	{
@@ -397,7 +397,7 @@ org_heading_set_entire_text (org_heading *heading, char *string, int length,
 	      debug_msg (DOC_ELT, 5, "Setting  tags_ubound =%d\n", tags_ubound);
 	    }
 	  int j;
-	  for (j = 2; j < (tags_ubound - lbound); j++)
+	  for (j = 2; (lbound + j) < tags_ubound; j++)
 	    {
 	      if (iswhitespace (string[tags_ubound - j]))
 		{
@@ -1902,7 +1902,7 @@ merge_tags (substr anc_str, substr loc_str, substr rem_str, size_t curr_col,
       int i;
       doc_stream_putc(' ', out);
       //curr_col += 1;
-      for (i=0; i < (ctxt->rmargin - 1 - char_count - curr_col); i++)
+      for (i=0; 1 + char_count + curr_col + i < ctxt->rmargin; i++)
         {
           doc_stream_putc(' ', out);
         }
